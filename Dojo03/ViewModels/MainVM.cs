@@ -31,7 +31,7 @@ namespace Dojo03.ViewModels
 
         // Stand-alone properties
 
-        private Currencies selectedCurrency;
+        private Currencies selectedCurrency = new Currencies();
         public Currencies SelectedCurrency
         {
             get { return selectedCurrency; }
@@ -43,7 +43,7 @@ namespace Dojo03.ViewModels
             }
         }
 
-        private StockEntryVM selectedPackage;
+        private StockEntryVM selectedPackage = new StockEntryVM();
         public StockEntryVM SelectedPackage
         {
             get { return selectedPackage; }
@@ -81,16 +81,16 @@ namespace Dojo03.ViewModels
 
         public MainVM()
         {
-            foreach (var ccy in Enum.GetValues(typeof(Currencies)))
-            {
+            SelectedCurrency = Currencies.EUR;
+            foreach (var ccy in Enum.GetValues(typeof(Currencies))) {
                 CurrencyList.Add((Currencies)ccy);
             }
-
-            foreach (var stockEntry in (new SampleManager().CurrentStock.OnStock))
-            {
+            
+            SelectedPackage = null;
+            foreach (var stockEntry in (new SampleManager().CurrentStock.OnStock)) {
                 SoftwarePackages.Add(new StockEntryVM(stockEntry));
             }
-
+            
             AddCommand = new Command(new Action(AddSoftwarePackage), new Func<bool>(CanAdd));
             EditCommand = new Command(new Action(EditSoftwarePackage), new Func<bool>(CanEdit));
             DeleteCommand = new Command(new Action(DeleteSoftwarePackage), new Func<bool>(CanDelete));
@@ -113,25 +113,13 @@ namespace Dojo03.ViewModels
 
         private bool CanEdit()
         {
-            if (SelectedPackage == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
         }
 
         private bool CanDelete()
         {
-            if (SelectedPackage == null)
-            {
-                return false;
-            } else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         private void AddSoftwarePackage()
