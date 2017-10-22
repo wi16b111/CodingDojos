@@ -1,0 +1,46 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dojo03"
+        xmlns:ViewModels="clr-namespace:Dojo03.ViewModels" x:Class="Dojo03.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="600">
+    <Window.DataContext>
+        <ViewModels:MainVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Label Width="70" Height="30" Margin="10,0" Content="Currency:"/>
+            <ComboBox Width="120" Height="30" Margin="10,0" ItemsSource="{Binding CurrencyList}" SelectedItem="{Binding SelectedCurrency}"/>
+        </StackPanel>
+        <DataGrid
+            Grid.Row="1"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            Margin="10,0"
+            AutoGenerateColumns="false"
+            ItemsSource="{Binding SoftwarePackages}"
+            SelectedItem="{Binding SelectedPackage}"
+        >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Group" Binding="{Binding SoftwareGroup}"/>
+                <DataGridTextColumn Header="Sales price" Binding="{Binding SalesPrice}"/>
+                <DataGridTextColumn Header="Purchase price" Binding="{Binding PurchasePrice}"/>
+                <DataGridTextColumn Header="On stock" Binding="{Binding StockCategory}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="100" Margin="5,0" Height="30" Content="Edit" Command="{Binding EditCommand}"/>
+            <Button Width="100" Margin="5,0" Height="30" Content="Delete" Command="{Binding DeleteCommand}"/>
+            <Button Width="100" Margin="5,0,10,0" Height="30" Content="Add" Command="{Binding AddCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>
