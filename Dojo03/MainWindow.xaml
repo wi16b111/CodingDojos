@@ -7,6 +7,9 @@
         xmlns:ViewModels="clr-namespace:Dojo03.ViewModels" x:Class="Dojo03.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="600">
+    <Window.Resources>
+        <ViewModels:StockEntryVM x:Key="StockEntryVM"/>
+    </Window.Resources>
     <Window.DataContext>
         <ViewModels:MainVM/>
     </Window.DataContext>
@@ -20,21 +23,16 @@
             <Label Width="70" Height="30" Margin="10,0" Content="Currency:"/>
             <ComboBox Width="120" Height="30" Margin="10,0" ItemsSource="{Binding CurrencyList}" SelectedItem="{Binding SelectedCurrency}"/>
         </StackPanel>
-        <DataGrid
-            Grid.Row="1"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch"
-            Margin="10,0"
-            AutoGenerateColumns="false"
-            ItemsSource="{Binding SoftwarePackages}"
-            SelectedItem="{Binding SelectedPackage}"
-        >
+        <DataGrid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,0"
+        AutoGenerateColumns="false" ItemsSource="{Binding SoftwarePackages}" SelectedItem="{Binding SelectedPackage}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Group" Binding="{Binding SoftwareGroup}"/>
                 <DataGridTextColumn Header="Sales price" Binding="{Binding SalesPrice}"/>
                 <DataGridTextColumn Header="Purchase price" Binding="{Binding PurchasePrice}"/>
-                <DataGridTextColumn Header="On stock" Binding="{Binding StockCategory}"/>
+                <DataGridTemplateColumn Header="On stock"><DataGridTemplateColumn.CellTemplate><DataTemplate>
+                    <Ellipse Height="10" Width="10" Fill="{Binding StockCategory}"/>
+                </DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">

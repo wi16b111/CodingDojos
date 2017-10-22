@@ -5,10 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Globalization;
+using System.Windows.Media;
 
 namespace Dojo03.ViewModels
 {
-    class StockEntryVM : Notification
+    class StockEntryVM : Notification, IValueConverter
     {
         private string name;
         private double salesPrice;
@@ -17,7 +20,7 @@ namespace Dojo03.ViewModels
         private double purchasePriceEur;
         private int amount;
         private string softwareGroup;
-        private int stockCategory;
+        private SolidColorBrush stockCategory;
         
         public string Name
         {
@@ -69,7 +72,7 @@ namespace Dojo03.ViewModels
             }
         }
 
-        public int StockCategory
+        public SolidColorBrush StockCategory
         {
             get { return this.stockCategory; }
             set
@@ -117,9 +120,19 @@ namespace Dojo03.ViewModels
 
         public void UpdateStockCategory()
         {
-            if (this.Amount < 10) { this.StockCategory = 1; }
-            else if (this.Amount >= 10 && this.Amount <= 20) { this.StockCategory = 2; }
-            else { this.StockCategory = 3; }
+            this.StockCategory = (SolidColorBrush)Convert(this.Amount, null, null, null);
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((int)value < 10) { return new SolidColorBrush(Colors.Red); }
+            else if ((int)value >= 10 && (int)value <= 20) { return new SolidColorBrush(Colors.Orange); }
+            else { return new SolidColorBrush(Colors.Green); }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
         }
     }
 }
