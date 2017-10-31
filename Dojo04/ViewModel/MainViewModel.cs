@@ -13,7 +13,7 @@ namespace Dojo04.ViewModel
     {
         // ------------------------------------
 
-        private static string path = "C:\\Users\\koles\\source\\repos\\CodingDojos\\Dojo04\\Files";
+        private static string path = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Files"));
 
         // ------------------------------------
 
@@ -78,15 +78,12 @@ namespace Dojo04.ViewModel
         private void Add()
         {
             Dudes.Add(new Dude(Firstname, Lastname, Ssn, Birthdate));
-            Firstname = "";
-            Lastname = "";
-            Ssn = 00000;
-            Birthdate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+            ReinitializeProperties();
         }
 
         private void Save()
         {
-            MessageBox.Show("Save btn pressed");
+            MessageBox.Show("Save btn was pressed");
         }
 
         private void Load()
@@ -106,18 +103,25 @@ namespace Dojo04.ViewModel
 
         private bool CanLoad()
         {
-            return File.Exists(path + "\\dudes.csv");
+            return File.Exists(Path.Combine(path, "dudes.csv"));
+        }
+
+        private void ReinitializeProperties()
+        {
+            Firstname = "";
+            Lastname = "";
+            Ssn = 00000;
+            Birthdate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
         }
 
         // -------------------------------------
 
         public MainViewModel()
         {
-            this.Firstname = "";
-            this.Lastname = "";
-            this.Ssn = 000000;
-            this.Birthdate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+            ReinitializeProperties();
+
             this.Dudes = new ObservableCollection<Dude>();
+
             this.ButtonAdd = new RelayCommand(Add, CanAdd);
             this.ButtonSave = new RelayCommand(Save, CanSave);
             this.ButtonLoad = new RelayCommand(Load, CanLoad);
