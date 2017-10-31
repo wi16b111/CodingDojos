@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 
 namespace Dojo04.ViewModel
@@ -12,32 +13,36 @@ namespace Dojo04.ViewModel
     {
         // ------------------------------------
 
+        private static string path = "C:\\Users\\koles\\source\\repos\\CodingDojos\\Dojo04\\Files";
+
+        // ------------------------------------
+
         private string firstname;
         public string Firstname
         {
             get { return firstname; }
-            set { firstname = value; }
+            set { firstname = value; RaisePropertyChanged(); }
         }
 
         private string lastname;
         public string Lastname
         {
             get { return lastname; }
-            set { lastname = value; }
+            set { lastname = value; RaisePropertyChanged(); }
         }
 
         private int ssn;
         public int Ssn
         {
             get { return ssn; }
-            set { ssn = value; }
+            set { ssn = value; RaisePropertyChanged(); }
         }
 
         private DateTime birthdate;
         public DateTime Birthdate
         {
             get { return birthdate; }
-            set { birthdate = value; }
+            set { birthdate = value; RaisePropertyChanged(); }
         }
 
         private ObservableCollection<Dude> dudes;
@@ -69,17 +74,14 @@ namespace Dojo04.ViewModel
         }
 
         // -------------------------------------
-
-        private void Init()
-        {
-            Dudes.Add(new Dude("one", "one", 1, new DateTime()));
-            Dudes.Add(new Dude("two", "two", 2, new DateTime()));
-            Dudes.Add(new Dude("three", "three", 3, new DateTime()));
-        }
-
+        
         private void Add()
         {
-            MessageBox.Show("Add btn pressed");
+            Dudes.Add(new Dude(Firstname, Lastname, Ssn, Birthdate));
+            Firstname = "";
+            Lastname = "";
+            Ssn = 00000;
+            Birthdate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
         }
 
         private void Save()
@@ -94,26 +96,28 @@ namespace Dojo04.ViewModel
 
         private bool CanAdd()
         {
-            return true;
+            return Lastname.Length >= 2;
         }
 
         private bool CanSave()
         {
-            return true;
+            return Dudes.Count > 0;
         }
 
         private bool CanLoad()
         {
-            return true;
+            return File.Exists(path + "\\dudes.csv");
         }
 
         // -------------------------------------
 
         public MainViewModel()
         {
+            this.Firstname = "";
+            this.Lastname = "";
+            this.Ssn = 000000;
+            this.Birthdate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             this.Dudes = new ObservableCollection<Dude>();
-            Init();
-
             this.ButtonAdd = new RelayCommand(Add, CanAdd);
             this.ButtonSave = new RelayCommand(Save, CanSave);
             this.ButtonLoad = new RelayCommand(Load, CanLoad);
