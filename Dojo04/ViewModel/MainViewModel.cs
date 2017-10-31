@@ -116,7 +116,7 @@ namespace Dojo04.ViewModel
 
             this.ButtonAdd = new RelayCommand(Add, CanAdd);
             this.ButtonSave = new RelayCommand(Save, CanSave);
-            this.ButtonAdd = new RelayCommand(Load, CanLoad);
+            this.ButtonLoad = new RelayCommand(Load, CanLoad);
         }
     }
 }
