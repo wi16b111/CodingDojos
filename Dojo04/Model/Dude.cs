@@ -40,6 +40,13 @@ namespace Dojo04.Model
 
         // ---------------------------------
 
+        public override string ToString()
+        {
+            return Firstname + ";" + Lastname + ";" + Ssn + ";" + Birthdate.ToShortDateString();
+        }
+
+        // ---------------------------------
+
         public Dude(string fname, string lname, int no, DateTime birth)
         {
             this.Firstname = fname;

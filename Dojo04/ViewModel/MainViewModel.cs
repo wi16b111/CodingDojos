@@ -83,12 +83,19 @@ namespace Dojo04.ViewModel
 
         private void Save()
         {
-            MessageBox.Show("Save btn was pressed");
+            string[] comrads = new string[Dudes.Count];
+            for (int i= 0; i < Dudes.Count; i++) { comrads[i] = Dudes[i].ToString(); }
+            File.WriteAllLines(Path.Combine(path, "dudes.csv"), comrads);
+            MessageBox.Show("Data was saved");
         }
-
+        
         private void Load()
         {
-            MessageBox.Show("Load btn pressed");
+            string[] comrads = File.ReadAllLines(Path.Combine(path, "dudes.csv"));
+            foreach (var comrad in comrads) {
+                string[] dudestring = comrad.Split(';');
+                Dudes.Add(new Dude(dudestring[0], dudestring[1], int.Parse(dudestring[2]), DateTime.Parse(dudestring[3])));
+            }
         }
 
         private bool CanAdd()
